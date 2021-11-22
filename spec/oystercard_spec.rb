@@ -19,8 +19,15 @@ RSpec.describe Oystercard do
     it "it raises an error if we try to top up more than our limit" do
       limit = Oystercard::LIMIT
       subject.top_up(limit)
-      expect { subject.top_up(4) }.to raise_error "you have reached your top up limit of #{LIMIT}"
+      expect { subject.top_up(4) }.to raise_error "you have reached your top up limit of #{limit}"
     end
   end
-
+  
+  describe "#deduct" do
+    it { is_expected.to respond_to(:deduct).with(1).argument }
+    
+    it "will deduct from the balance" do
+      expect{ subject.deduct(3) }.to change{subject.balance}.by(-3) 
+     end
+  end
 end
