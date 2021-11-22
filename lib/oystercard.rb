@@ -2,9 +2,14 @@
 
 require_relative "oystercard"
 class Oystercard
+  attr_reader :balance
 
- def balance
-  0 
- end
+  def initialize(balance = 0)
+  @balance = balance
+  end
+
+  def top_up(money)
+    @balance += money
+  end
 end
 
