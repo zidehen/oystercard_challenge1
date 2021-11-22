@@ -2,6 +2,7 @@
 
 require_relative "oystercard"
 class Oystercard
+  LIMIT = 90
   attr_reader :balance
 
   def initialize(balance = 0)
@@ -9,7 +10,10 @@ class Oystercard
   end
 
   def top_up(money)
+    raise "you have reached your top up limit #{LIMIT}" if money + @balance > LIMIT
     @balance += money
   end
+
+
 end
 

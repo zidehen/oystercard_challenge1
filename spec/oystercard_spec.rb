@@ -1,16 +1,26 @@
 # frozen_string_literal: true
 require "oystercard"
 RSpec.describe Oystercard do
+  describe "#balance" do 
+    it { is_expected.to respond_to(:balance) }
 
-  it { is_expected.to respond_to(:balance) }
-
-  it "will initialize with with a default balance of 0" do
-    expect(subject.balance).to eq 0
+    it "will initialize with with a default balance of 0" do
+      expect(subject.balance).to eq 0
+    end
   end
 
-  it { is_expected.to respond_to(:top_up).with(1).argument }
-
-  it "will top up balance" do
-   expect{ subject.top_up(3) }.to change{subject.balance}.by(3) 
+  describe "#top_up" do
+    it { is_expected.to respond_to(:top_up).with(1).argument }
+  
+    it "will top up balance" do
+     expect{ subject.top_up(3) }.to change{subject.balance}.by(3) 
+    end
+    
+    it "it raises an error if we try to top up more than our limit" do
+      limit = Oystercard::LIMIT
+      subject.top_up(limit)
+      expect { subject.top_up(4) }.to raise_error "you have reached your top up limit of #{LIMIT}"
+    end
   end
+
 end
