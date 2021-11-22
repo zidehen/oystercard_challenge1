@@ -1,11 +1,10 @@
 # frozen_string_literal: true
-
+require "oystercard"
 RSpec.describe Oystercard do
-  it "has a version number" do
-    expect(Oystercard::VERSION).not_to be nil
-  end
 
-  it "does something useful" do
-    expect(false).to eq(true)
+  it { is_expected.to respond_to(:balance) }
+
+  it "will initialize with with a default balance of 0" do
+    expect(subject.balance).to eq 0
   end
 end

@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
-require_relative "oystercard/version"
+require_relative "oystercard"
+class Oystercard
 
-module Oystercard
-  class Error < StandardError; end
-  # Your code goes here...
+ def balance
+  0 
+ end
 end
+
