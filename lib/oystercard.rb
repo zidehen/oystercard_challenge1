@@ -3,10 +3,11 @@
 require_relative "oystercard"
 class Oystercard
   LIMIT = 90
-  attr_reader :balance
+  attr_reader :balance, :in_journey
 
-  def initialize(balance = 0)
-    @balance = balance
+  def initialize
+    @in_journey = false
+    @balance = 0
   end
 
   def top_up(money)
@@ -19,6 +20,13 @@ class Oystercard
     @balance -= money
   end
 
-  def in_journey?
+  def touch_in
+    @in_journey = true
+    return "you have touched in"
+  end
+
+  def touch_out
+    @in_journey = false
+    return "you have touched out"
   end
 end
