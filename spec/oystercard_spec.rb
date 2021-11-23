@@ -34,13 +34,13 @@ RSpec.describe Oystercard do
   describe "#touch_in and #touch_out" do
     
     it "can touch in" do
-      subject.top_up(5)
+      subject.top_up(Oystercard::MINIMUM_AMOUNT)
       subject.touch_in
       expect(subject.in_journey).to eq true
     end
 
     it "can touch out" do
-      subject.top_up(5)
+      subject.top_up(Oystercard::MINIMUM_AMOUNT)
       subject.touch_in
       subject.touch_out 
       expect(subject.in_journey).to eq false
