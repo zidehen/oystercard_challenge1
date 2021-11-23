@@ -23,13 +23,6 @@ RSpec.describe Oystercard do
     end
   end
   
-  describe "#deduct" do
-    it { is_expected.to respond_to(:deduct).with(1).argument }
-    
-    it "will deduct from the balance" do
-      expect { subject.deduct(3) }.to change{ subject.balance }.by(-3)
-    end
-  end
 
   describe "#touch_in and #touch_out" do
     
@@ -52,6 +45,13 @@ RSpec.describe Oystercard do
       minimum_amount = Oystercard::MINIMUM_AMOUNT
       expect { subject.touch_in }.to raise_error "Need minimum amount of £#{minimum_amount} to touch in"
     end 
+
+    it "on touch out it will deduct from balance " do
+      subject.top_up(Oystercard::MINIMUM_AMOUNT)
+      subject.touch_in
+      expect { subject.touch_out }.to change{ subject.balance }.by(-Oystercard::MINIMUM_AMOUNT)
+    end
+
   end
 
   # describe "#touch_in" do

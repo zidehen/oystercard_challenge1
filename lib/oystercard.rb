@@ -17,24 +17,29 @@ class Oystercard
     @balance += money
   end
 
-  def deduct(money)
-    @balance -= money
-  end
-
+  
   def touch_in
     raise "Need minimum amount of £#{MINIMUM_AMOUNT} to touch in" if under_minimum_amount
     @in_journey = true
     # return "you have touched in"
     
   end
-
+  
   def touch_out
+    deduct(MINIMUM_AMOUNT)
     @in_journey = false
+  
     return "you have touched out"
   end
   
   def under_minimum_amount
     @balance < MINIMUM_AMOUNT
   end
+  
+  private
 
+  def deduct(money)
+    @balance -= money
+  end
+  
 end
