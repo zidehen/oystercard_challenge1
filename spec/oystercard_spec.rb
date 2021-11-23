@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require "oystercard"
+ require "oystercard"
 RSpec.describe Oystercard do
   describe "#balance" do 
     it { is_expected.to respond_to(:balance) }
@@ -13,7 +13,7 @@ RSpec.describe Oystercard do
     it { is_expected.to respond_to(:top_up).with(1).argument }
   
     it "will top up balance" do
-     expect{ subject.top_up(3) }.to change{subject.balance}.by(3) 
+     expect { subject.top_up(3) }.to change{ subject.balance }.by(3) 
     end
     
     it "it raises an error if we try to top up more than our limit" do
@@ -27,7 +27,11 @@ RSpec.describe Oystercard do
     it { is_expected.to respond_to(:deduct).with(1).argument }
     
     it "will deduct from the balance" do
-      expect{ subject.deduct(3) }.to change{subject.balance}.by(-3) 
-     end
+      expect { subject.deduct(3) }.to change{ subject.balance }.by(-3)
+    end
+  end
+
+  describe "#in_journey?" do
+    it { is_expected.to respond_to(:in_journey?)}
   end
 end
