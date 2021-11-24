@@ -1,6 +1,7 @@
-# frozen_string_literal: true
- require "oystercard"
+require "oystercard"
+
 RSpec.describe Oystercard do
+  let(:station){ double :station }
   describe "#balance" do 
     it { is_expected.to respond_to(:balance) }
 
@@ -28,13 +29,13 @@ RSpec.describe Oystercard do
     
     it "can touch in" do
       subject.top_up(Oystercard::MINIMUM_AMOUNT)
-      subject.touch_in
+      subject.touch_in(station)
       expect(subject.in_journey).to eq true
     end
 
     it "can touch out" do
       subject.top_up(Oystercard::MINIMUM_AMOUNT)
-      subject.touch_in
+      subject.touch_in(station)
       subject.touch_out 
       expect(subject.in_journey).to eq false
     end
@@ -43,18 +44,29 @@ RSpec.describe Oystercard do
       # allow(subject).to receive(:touch_in).and_return true
       # subject.balance
       minimum_amount = Oystercard::MINIMUM_AMOUNT
-      expect { subject.touch_in }.to raise_error "Need minimum amount of £#{minimum_amount} to touch in"
+      expect { subject.touch_in(station) }.to raise_error "Need minimum amount of £#{minimum_amount} to touch in"
     end 
 
     it "on touch out it will deduct from balance " do
       subject.top_up(Oystercard::MINIMUM_AMOUNT)
-      subject.touch_in
+      subject.touch_in(station)
       expect { subject.touch_out }.to change{ subject.balance }.by(-Oystercard::MINIMUM_AMOUNT)
     end
 
   end
 
   describe "#touch_in" do
-    it { is_expected.to respond_to(:touch_in)} 
+    it { is_expected.to respond_to(:touch_in).with(1).argument } 
+  end
+
+  describe "#entry_station" do
+    
+    it { is_expected.to respond_to(:entry_station)} 
+
+    it 'remembers the entry station after touch in' do
+      subject.top_up(Oystercard::MINIMUM_AMOUNT)
+      subject.touch_in(station)
+      expect(subject.entry_station).to eq station
+    end
   end
 end
