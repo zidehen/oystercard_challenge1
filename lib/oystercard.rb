@@ -5,7 +5,6 @@ class Oystercard
   attr_reader :balance, :in_journey, :entry_station
 
   def initialize
-    @in_journey = false
     @balance = 0
     
   end
@@ -26,9 +25,9 @@ class Oystercard
     
   end
 
-  # def entry_station
-  #   @entry_station
-  # end
+  def in_journey?
+    !!entry_station
+  end
   
   def touch_out
     deduct(MINIMUM_AMOUNT)
