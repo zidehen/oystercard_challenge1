@@ -54,7 +54,7 @@ RSpec.describe Oystercard do
 
   end
 
-  # describe "#touch_in" do
-  #   it { is_expected.to respond_to(:touch_in)} 
-  # end
+  describe "#touch_in" do
+    it { is_expected.to respond_to(:touch_in)} 
+  end
 end
