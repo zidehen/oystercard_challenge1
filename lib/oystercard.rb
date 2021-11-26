@@ -3,7 +3,7 @@ require_relative 'journey'
 class Oystercard
   LIMIT = 90
   MINIMUM_AMOUNT = 1
-  attr_reader :balance, :in_journey, :entry_station, :exit_station, :journey_list, :journey
+  attr_reader :balance, :in_journey, :journey_list, :journey
 
   def initialize
     @balance = 0
@@ -21,10 +21,10 @@ class Oystercard
   
   def touch_in(entry_station)
     raise "Need minimum amount of £#{MINIMUM_AMOUNT} to touch in" if under_minimum_amount
-    @in_journey = true
-    @entry_station = entry_station
+    @journey.in_journey = true
+    @journey.entry_station = entry_station
     return "you have touched in" #
-    @journey_list << @entry_station #
+    @journey.journey_list << @entry_station #
     
   end
 
@@ -34,8 +34,8 @@ class Oystercard
 
   def touch_out(exit_station)
     deduct(MINIMUM_AMOUNT)
-    @in_journey = false
-    @exit_station = exit_station
+    @journey.in_journey = false
+    @journey.exit_station = exit_station
     @journey.journey_list << {:entry_station => @entry_station, :exit_station => @exit_station} #
     @entry_station = nil
     return "you have touched out"
