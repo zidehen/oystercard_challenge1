@@ -1,15 +1,20 @@
 require "oystercard"
 
 RSpec.describe Oystercard do
-  # let(:station){ double :station }
+  subject(:oystercard) {described_class.new}
   let(:entry_station) { double :station }
   let(:exit_station) { double :station }
+  let(:journey_list) { {entry_station: entry_station, exit_station: exit_station} }
 
   describe "#balance" do 
     it { is_expected.to respond_to(:balance) }
 
     it "will initialize with with a default balance of 0" do
       expect(subject.balance).to eq 0
+    end
+
+    it "journeys list will be empty by default" do
+      expect(subject.journey_list).to eq []
     end
   end
 
@@ -46,8 +51,10 @@ RSpec.describe Oystercard do
     end 
   end
 
-
+  
   describe "#touch_out" do
+    
+    it { is_expected.to respond_to(:touch_out).with(1).argument } 
 
     it "can touch out" do
       subject.top_up(Oystercard::MINIMUM_AMOUNT)
@@ -62,13 +69,9 @@ RSpec.describe Oystercard do
       expect { subject.touch_out(exit_station) }.to change{ subject.balance }.by(-Oystercard::MINIMUM_AMOUNT)
     end
 
-    it { is_expected.to respond_to(:touch_out).with(1).argument } 
-
   end
 
   describe "#entry_station" do
-    
-    # it { is_expected.to respond_to(:entry_station)} 
 
     it 'remembers the entry station after touch in' do
       subject.top_up(Oystercard::MINIMUM_AMOUNT)
@@ -78,8 +81,6 @@ RSpec.describe Oystercard do
   end
 
   describe "#exit_station" do
-    
-    # it { is_expected.to respond_to(:exit_station)} 
 
     it 'remembers the exit station after touch out' do
       subject.top_up(Oystercard::MINIMUM_AMOUNT)
@@ -90,19 +91,12 @@ RSpec.describe Oystercard do
 
   # describe '#journey_list' do
     
-  #   it 'stores list of journeys' do
-  #     subject.top_up(Oystercard::MINIMUM_AMOUNT)
-  #     station = subject.touch_in(station)
-  #     expect(subject.touch_in(station)).to eq station
-  # end
-
-  # it 'stores list of journeys' do
-  #   subject.top_up(Oystercard::MINIMUM_AMOUNT)
-  #   expect(subject.touch_in(station)).to eq :journey_list["station"]
-  # end
-
+    it 'stores list of journeys' do
+      subject.top_up(Oystercard::MINIMUM_AMOUNT)
+      subject.touch_in(entry_station)
+      subject.touch_out(exit_station)
+      expect(subject.journey_list).to include journey_list
+    end
   end
-
-
 
 end

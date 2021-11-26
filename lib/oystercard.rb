@@ -6,11 +6,7 @@ class Oystercard
 
   def initialize
     @balance = 0
-    @journey_list = {
-      :entry_station => @entry_station,
-      :exit_station => @exit_station
-    #   # :1 => [@entry_station, @exit_station]
-    }
+    @journey_list = []
   end
 
   def top_up(money)
@@ -26,7 +22,7 @@ class Oystercard
     @in_journey = true
     @entry_station = entry_station
     # return "you have touched in"
-    @journey_list[:entry_station] = entry_station
+    # @journey_list << @entry_station
     
   end
 
@@ -37,9 +33,9 @@ class Oystercard
   def touch_out(exit_station)
     deduct(MINIMUM_AMOUNT)
     @in_journey = false
-    # @entry_station = nil
     @exit_station = exit_station
-    @journey_list[:exit_station] = exit_station
+    @journey_list << {:entry_station => @entry_station, :exit_station => @exit_station}
+    @entry_station = nil
     return "you have touched out"
   end
   
