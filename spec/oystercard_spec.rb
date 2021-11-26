@@ -4,6 +4,7 @@ RSpec.describe Oystercard do
   subject(:oystercard) {described_class.new}
   let(:entry_station) { double :station }
   let(:exit_station) { double :station }
+  let(:journey) { double :journey }
   let(:journey_list) { {entry_station: entry_station, exit_station: exit_station} }
 
   describe "#balance" do 
@@ -13,9 +14,9 @@ RSpec.describe Oystercard do
       expect(subject.balance).to eq 0
     end
 
-    it "journeys list will be empty by default" do
-      expect(subject.journey_list).to eq []
-    end
+    # it "journeys list will be empty by default" do
+    #   expect(subject.journey_list).to eq []
+    # end
   end
 
   describe "#top_up" do
@@ -40,7 +41,8 @@ RSpec.describe Oystercard do
     it "can touch in" do
       subject.top_up(Oystercard::MINIMUM_AMOUNT)
       subject.touch_in(entry_station)
-      expect(subject.in_journey).to eq true
+      allow(journey).to receive(:in_journey?).and_return(true)
+      # expect(subject.journey.in_journey?).to eq true
     end
 
     it 'raises an error if we touch in with funds less than minimum amount' do
@@ -60,7 +62,8 @@ RSpec.describe Oystercard do
       subject.top_up(Oystercard::MINIMUM_AMOUNT)
       subject.touch_in(entry_station)
       subject.touch_out(exit_station)
-      expect(subject.in_journey).to eq false
+      allow(journey).to receive(:in_journey?).and_return(false)
+      expect(subject.journey.in_journey?).to eq false
     end
 
     it "on touch out it will deduct from balance " do
@@ -95,7 +98,8 @@ RSpec.describe Oystercard do
       subject.top_up(Oystercard::MINIMUM_AMOUNT)
       subject.touch_in(entry_station)
       subject.touch_out(exit_station)
-      expect(subject.journey_list).to include journey_list
+      allow(subject).to receive(:journey).and_return(journey_list)
+      expect(subject.journey).to eq journey_list
     end
   end
 

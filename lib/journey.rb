@@ -1,7 +1,11 @@
 class Journey
-attr_reader :journey_list 
-  def initialize(entry_station)
+attr_accessor :journey_list, :entry_station
+  def initialize
     @journey_list = []
-    @entry_station = entry_station
+    @entry_station = nil
+  end
+
+  def in_journey?
+    !!entry_station
   end
 end
