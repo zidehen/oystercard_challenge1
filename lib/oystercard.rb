@@ -5,10 +5,9 @@ class Oystercard
   MINIMUM_AMOUNT = 1
   attr_reader :balance, :in_journey, :journey_list, :journey
 
-  def initialize
+  def initialize(journey = Journey.new)
     @balance = 0
-    @journey = Journey.new
-    #@journey_list = [] 
+    @journey = journey
   end
 
   def top_up(money)
@@ -23,8 +22,8 @@ class Oystercard
     raise "Need minimum amount of £#{MINIMUM_AMOUNT} to touch in" if under_minimum_amount
     @journey.in_journey = true
     @journey.entry_station = entry_station
-    return "you have touched in" #
-    @journey.journey_list << @entry_station #
+    return "you have touched in"
+    @journey.journey_list << @entry_station
     
   end
 
@@ -41,15 +40,14 @@ class Oystercard
     return "you have touched out"
   end
   
-  def under_minimum_amount
-    @balance < MINIMUM_AMOUNT
-  end
-  
-  
   private
 
   def deduct(money)
     @balance -= money
+  end
+  
+  def under_minimum_amount
+    @balance < MINIMUM_AMOUNT
   end
   
 end

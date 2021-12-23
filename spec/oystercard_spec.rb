@@ -46,8 +46,6 @@ RSpec.describe Oystercard do
     end
 
     it 'raises an error if we touch in with funds less than minimum amount' do
-      # allow(subject).to receive(:touch_in).and_return true
-      # subject.balance
       minimum_amount = Oystercard::MINIMUM_AMOUNT
       expect { subject.touch_in(entry_station) }.to raise_error "Need minimum amount of £#{minimum_amount} to touch in"
     end 
@@ -91,8 +89,9 @@ RSpec.describe Oystercard do
       subject.touch_out(exit_station)
       expect(subject.journey.exit_station).to eq exit_station
     end
+  end
 
-  # describe '#journey_list' do
+  describe '#journey_list' do
     
     it 'stores list of journeys' do
       subject.top_up(Oystercard::MINIMUM_AMOUNT)
